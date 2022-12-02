@@ -7,7 +7,6 @@ pub trait Year {
 pub trait Day {
     fn day_number(&self) -> u8;
 
-    fn adapt_input(&self, original_input: String) -> String;
     fn part1(&self, input: &String) -> String;
     fn part2(&self, input: &String) -> String;
 }
