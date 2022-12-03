@@ -35,17 +35,11 @@ impl Day for Day3 {
     fn part2(&self, input: &String) -> String {
         let lines = input.trim().split('\n').collect::<Vec<&str>>();
 
-        let mut groups = Vec::new();
-
+        let mut prio_sum = 0;
         for i in 0..lines.len() {
             if (i + 1) % 3 == 0 {
-                groups.push((lines[i - 2], lines[i - 1], lines[i]));
+                prio_sum += ALPHABET.find(intersection(vec![lines[i - 2], lines[i - 1], lines[i]])).unwrap() + 1;
             }
-        }
-
-        let mut prio_sum = 0;
-        for group in groups {
-            prio_sum += ALPHABET.find(intersection(vec![group.0, group.1, group.2])).unwrap() + 1;
         }
 
         prio_sum.to_string()
