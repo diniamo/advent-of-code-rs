@@ -30,8 +30,9 @@ impl Day for Day4 {
             .collect();
 
         let mut count = 0;
-        for pair in pairs {
-            if (pair.0.0 <= pair.1.0 && pair.0.1 >= pair.1.1) || (pair.1.0 <= pair.0.0 && pair.1.1 >= pair.0.1) {
+        for ((x1, x2), (y1, y2)) in pairs {
+            // Check if either contains the other
+            if (x1 <= y1 && x2 >= y2) || (y1 <= x1 && y2 >= x2) {
                 count += 1;
             }
         }
@@ -50,9 +51,9 @@ impl Day for Day4 {
             .collect();
 
         let mut count = 0;
-        for pair in pairs {
+        for ((x1, x2), (y1, y2)) in pairs {
             // (StartA <= EndB) and (EndA >= StartB)
-            if pair.0.0 <= pair.1.1 && pair.0.1 >= pair.1.0 {
+            if x1 <= y2 && x2 >= y1 {
                 count += 1;
             }
         }
