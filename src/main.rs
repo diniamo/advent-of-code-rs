@@ -20,7 +20,7 @@ fn main() -> std::io::Result<()> {
 
         for day in year.days() {
             let input_file = format!("./input/{}/{}.txt", year_num, day.day_number());
-            let input = if Path::exists(Path::new(&input_file)) {
+            let input = if Path::new(&input_file).exists() {
                 fs::read_to_string(input_file)?
             } else {
                 let request = minreq::get(format!("https://adventofcode.com/{}/day/{}/input", year_num, day.day_number()))
