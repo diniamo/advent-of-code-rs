@@ -7,3 +7,4 @@ edition = "2021"
 
 [dependencies]
 minreq = { version = "2.6.0", features = ["https-rustls"] }
+queues = "1.1.0"
