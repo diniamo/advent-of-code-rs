@@ -4,21 +4,6 @@ use std::collections::VecDeque;
 
 pub struct Day5 {}
 
-// fn print_table(table: Vec<Queue<char>>) {
-//     let mut clone = table.clone();
-//     let longest = clone.iter().map(|q| q.size()).max().unwrap();
-//
-//     for i in 0..longest {
-//         for (j, &mut val) in clone.iter_mut().enumerate() {
-//             if val.size() <= i {
-//                 print!("{} ", val.remove().unwrap());
-//             }
-//         }
-//
-//         println!();
-//     }
-// }
-
 impl Day for Day5 {
     fn day_number(&self) -> u8 {
         5
