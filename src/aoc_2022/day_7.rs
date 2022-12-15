@@ -88,7 +88,7 @@ $ ls
             } else {
                 if line.starts_with('d') { // that means it starts with dir
                     match *tree.get_by_pwd(&pwd) {
-                        Object::Folder(n, c) => c.push(Object::Folder(&line[4..], Box::new(Vec::new()))),
+                        Object::Folder(n, ref mut c) => c.push(Object::Folder(&line[4..], Box::new(Vec::new()))),
                         Object::File(_, _) => panic!("pwd points to file")
                     }
                 } else {}
