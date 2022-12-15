@@ -12,7 +12,7 @@ fn intersection(strs: Vec<&str>) -> char {
         }
     }
 
-    panic!("Not possible");
+    unreachable!()
 }
 
 impl Day for Day3 {

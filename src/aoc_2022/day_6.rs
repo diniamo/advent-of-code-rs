@@ -23,7 +23,7 @@ impl Day for Day6 {
                 }
             }
         }
-        panic!("not possible");
+        unreachable!();
     }
 
     fn part2(&self, input: &String) -> String {
@@ -34,6 +34,6 @@ impl Day for Day6 {
                 }
             }
         }
-        panic!("not possible");
+        unreachable!()
     }
 }

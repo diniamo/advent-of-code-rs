@@ -38,7 +38,7 @@ impl Day for Day2 {
                         'X' => points += ROCK + DRAW,
                         'Y' => points += PAPER + WIN,
                         'Z' => points += SCISSIORS + LOSE,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
                 'B' => {
@@ -46,7 +46,7 @@ impl Day for Day2 {
                         'X' => points += ROCK + LOSE,
                         'Y' => points += PAPER + DRAW,
                         'Z' => points += SCISSIORS + WIN,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
                 'C' => {
@@ -54,10 +54,10 @@ impl Day for Day2 {
                         'X' => points += ROCK + WIN,
                         'Y' => points += PAPER + LOSE,
                         'Z' => points += SCISSIORS + DRAW,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
-                _ => panic!("No such move")
+                _ => unreachable!()
             }
         }
 
@@ -92,7 +92,7 @@ impl Day for Day2 {
                         'X' => points += SCISSIORS + LOSE,
                         'Y' => points += ROCK + DRAW,
                         'Z' => points += PAPER + WIN,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
                 'B' => {
@@ -100,7 +100,7 @@ impl Day for Day2 {
                         'X' => points += ROCK + LOSE,
                         'Y' => points += PAPER + DRAW,
                         'Z' => points += SCISSIORS + WIN,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
                 'C' => {
@@ -108,10 +108,10 @@ impl Day for Day2 {
                         'X' => points += PAPER + LOSE,
                         'Y' => points += SCISSIORS + DRAW,
                         'Z' => points += ROCK + WIN,
-                        _ => panic!("No such move")
+                        _ => unreachable!()
                     }
                 },
-                _ => panic!("No such move")
+                _ => unreachable!()
             }
         }
 
