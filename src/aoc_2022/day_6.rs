@@ -16,7 +16,7 @@ impl Day for Day6 {
     }
 
     fn part1(&self, input: &String) -> String {
-        for (i, c) in input.chars().enumerate() {
+        for i in 0..input.len() {
             if i >= 4 {
                 if !has_dup(&input[(i - 4)..i]) {
                     return i.to_string()
@@ -27,7 +27,7 @@ impl Day for Day6 {
     }
 
     fn part2(&self, input: &String) -> String {
-        for (i, c) in input.chars().enumerate() {
+        for i in 0..input.len() {
             if i >= 14 {
                 if !has_dup(&input[(i - 14)..i]) {
                     return i.to_string()
