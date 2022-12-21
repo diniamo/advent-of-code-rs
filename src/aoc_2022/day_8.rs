@@ -1,5 +1,7 @@
 use advent_of_code::Day;
 
+use std::cmp::max;
+
 
 pub struct Day8 {}
 
@@ -44,6 +46,34 @@ impl Day for Day8 {
     }
 
     fn part2(&self, input: &String) -> String {
-        String::new()
+//         let input = "30373
+// 25512
+// 65332
+// 33549
+// 35390";
+        let map: Vec<Vec<u32>> = input.lines().map(|l| l.chars().map(|c| c.to_digit(10).unwrap()).collect()).collect();
+
+        map.iter().map(|row| row.iter().map(|digit| digit.to_string()).collect()).map(|row: Vec<String>| row.join(" ")).for_each(|line| println!("{line}"));
+        println!();
+
+        let mut highest: usize = 0;
+        for (i, row) in (&map[1..(map.len() - 1)]).iter().enumerate() {
+            for (j, &digit) in (&row[1..(row.len() - 1)]).iter().enumerate() {
+                println!("{digit} at ({j}, {i}) in row {:?}", row);
+
+                let left_side = &row[..=j];
+                let left = left_side.iter().rev().enumerate().find_map(|(k, &d)| if digit <= d || k == (left_side.len() - 1) { Some(k + 1) } else { None }).unwrap();
+                let right_side = &row[(j + 2)..];
+                let right = right_side.iter().enumerate().find_map(|(k, &d)| if digit <= d || k == (right_side.len() - 1) { Some(k + 1) } else { None }).unwrap();
+                let top_side = &map[..=i];
+                let up = top_side.iter().rev().enumerate().find_map(|(k, r)| if digit <= r[j + 1] || k == (top_side.len() - 1) { Some(k + 1) } else { None }).unwrap();
+                let bottom_side = &map[(i + 2)..];
+                let down = bottom_side.iter().enumerate().find_map(|(k, r)| if digit <= r[j + 1] || k == (bottom_side.len() - 1) { Some(k + 1) } else { None }).unwrap();
+
+                highest = max(highest, left * right * up * down);
+            }
+        }
+
+        highest.to_string()
     }
 }
