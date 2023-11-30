@@ -1,4 +1,4 @@
-/target
+**/target
+**/input
 
-session_id.txt
-/input
+**/.idea
