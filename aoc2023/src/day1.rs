@@ -1,23 +1,59 @@
-#[aoc_generator(day1)]
-pub fn generator(input: &str) -> Vec<u32> {
-    let find_first_digit = |c: &char| c.is_digit(10);
-
-    input
-        .lines()
-        .map(|l| l.chars().filter(|c| c.is_digit(10)))
-        .map(|mut l| {
-            let mut lr = l.clone().rev();
-            
-            u32::from_str_radix(format!("{}{}",
-                l.find(find_first_digit).unwrap(),
-                lr.find(find_first_digit).unwrap()
-            ).as_str(), 10).unwrap()
-        }
-        )
-        .collect()
-}
+fn find_first_digit(c: &char) -> bool { c.is_ascii_digit() }
 
 #[aoc(day1, part1)]
-pub fn part1(input: &[u32]) -> u32 {
-    input.iter().sum()
+pub fn part1(input: &str) -> u32 {
+    input
+        .lines()
+        .map(|l| {
+            let mut lr = l.chars().rev();
+
+            format!("{}{}",
+                    l.chars().find(find_first_digit).unwrap(),
+                    lr.find(find_first_digit).unwrap()
+            ).parse::<u32>().unwrap()
+        })
+        .sum()
+}
+
+#[aoc(day1, part2)]
+pub fn part2(input: &str) -> u32 {
+    let actual_input = input.replace("one", "o1e")
+        .replace("two", "t2o")
+        .replace("three", "t3e")
+        .replace("four", "f4r")
+        .replace("five", "f5e")
+        .replace("six", "s6x")
+        .replace("seven", "s7n")
+        .replace("eight", "e8t")
+        .replace("nine", "n9e");
+    part1(&actual_input)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn example1() {
+        let input = "1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet";
+
+        assert_eq!(part1(&input), 142);
+    }
+
+    #[test]
+    fn example2() {
+        let input = "two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen
+";
+
+        assert_eq!(part2(&input), 281);
+    }
 }
