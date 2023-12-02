@@ -1,4 +1,4 @@
-fn find_first_digit(c: &char) -> bool { c.is_ascii_digit() }
+fn is_digit(c: &char) -> bool { c.is_ascii_digit() }
 
 #[aoc(day1, part1)]
 pub fn part1(input: &str) -> u32 {
@@ -8,8 +8,8 @@ pub fn part1(input: &str) -> u32 {
             let mut lr = l.chars().rev();
 
             format!("{}{}",
-                    l.chars().find(find_first_digit).unwrap(),
-                    lr.find(find_first_digit).unwrap()
+                    l.chars().find(is_digit).unwrap(),
+                    lr.find(is_digit).unwrap()
             ).parse::<u32>().unwrap()
         })
         .sum()
@@ -29,12 +29,13 @@ pub fn part2(input: &str) -> u32 {
     part1(&actual_input)
 }
 
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
-    fn example1() {
+    fn part1_example() {
         let input = "1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
@@ -44,7 +45,7 @@ treb7uchet";
     }
 
     #[test]
-    fn example2() {
+    fn part2_example() {
         let input = "two1nine
 eightwothree
 abcone2threexyz
