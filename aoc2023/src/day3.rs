@@ -24,7 +24,7 @@ fn part1(input: &[Vec<char>]) -> u32 {
                     let check_above = i >= 1;
                     let check_below = i + 1 < chars.len();
 
-                    // Adjacent
+                    // Sides
                     if check_left && is_symbol(chars[j - 1]) {
                         symbol_found = true;
                         continue;
@@ -110,7 +110,7 @@ fn part2(input: &[Vec<char>]) -> u32 {
                 let check_above = i >= 1;
                 let check_below = i + 1 < chars.len();
 
-                // Adjacent
+                // Sides
                 if check_left && chars[j - 1].is_ascii_digit() {
                     product *= get_full_number(j - 1, chars);
                     count += 1;
