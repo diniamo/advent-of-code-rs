@@ -43,7 +43,8 @@ mod tests {
 
     #[test]
     fn part1_example() {
-        // This fails, but I'm going to leave it like this for the funny. The reason the real input doesn't fail is because there are no lines with no intersection, so 0u32 - 1 (on line 28) can't happen)
+        // This fails, but I'm going to leave it like this for the funny.
+        // The reason the real input doesn't fail is because there are no lines with no intersection, so 0u32 - 1 (on line 28) can't happen)
         assert_eq!(part1(&parse("Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
