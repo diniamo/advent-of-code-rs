@@ -106,45 +106,6 @@ fn part2(input: &Almanac) -> u32 {
         seeds: actual_seeds,
         ..(input.clone())
     })
-
-    /*let mut locations: Vec<u32> = Vec::new();
-
-    let mut acceptable_offset = 0u32;
-    let mut previous_result = 0u32;
-    for (i, seed) in actual_seeds.iter().enumerate() {
-        println!("{}/{}", i + 1, actual_seeds.len());
-        if i > 0 && *seed - actual_seeds[i - 1] > acceptable_offset {
-            acceptable_offset -= *seed - actual_seeds[i - 1];
-            continue;
-        }
-
-        let mut current_state = "seed";
-        let mut current_number = *seed;
-
-        while current_state != "location" {
-            let ranges = input.map.get(current_state).unwrap();
-
-            for range in ranges {
-                if range.source_start <= current_number && current_number < range.source_start + range.length {
-                    if current_state == "seed" {
-                        acceptable_offset = range.destination_start + range.length - current_number;
-                    }
-
-                    current_number = range.destination_start + (current_number - range.source_start);
-
-                    break;
-                }
-            }
-
-            previous_result = current_number;
-
-            current_state = input.states.get(current_state).unwrap();
-        }
-
-        locations.push(current_number);
-    }
-
-    *locations.iter().min().unwrap()*/
 }
 
 
