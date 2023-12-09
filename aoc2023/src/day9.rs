@@ -24,20 +24,26 @@ fn part1(input: &[Vec<i32>]) -> i32 {
 
     for seq in input {
         let mut diff_rows: Vec<Vec<i32>> = vec![seq.clone()];
-        while !diff_rows[0].iter().all_equal() {
-            diff_rows.insert(0, get_diff_row(&diff_rows[0]));
+        while !diff_rows.last().unwrap().iter().all_equal() {
+            diff_rows.push(get_diff_row(diff_rows.last().unwrap()));
         }
 
-        let mut i = 1usize;
-        while i < diff_rows.len() {
-            let previous = *diff_rows[i - 1].last().unwrap();
-            let row = &mut diff_rows[i];
-            row.push(row.last().unwrap() + previous);
+        // This is the intuitive solution, but we're just adding the last number in each diff_row together
+        // diff_rows.reverse();
+        // let mut i = 1usize;
+        // while i < diff_rows.len() {
+        //     let previous = *diff_rows[i - 1].last().unwrap();
+        //     let row = &mut diff_rows[i];
+        //     row.push(row.last().unwrap() + previous);
+        //
+        //     i += 1;
+        // }
+        // sum += diff_rows.last().unwrap().last().unwrap();
 
-            i += 1;
-        }
-
-        sum += diff_rows.last().unwrap().last().unwrap();
+        sum += diff_rows
+            .iter()
+            .map(|r| r.last().unwrap())
+            .sum::<i32>();
     }
 
     sum
