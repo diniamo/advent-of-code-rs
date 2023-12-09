@@ -20,9 +20,7 @@ fn get_diff_row(row: &[i32]) -> Vec<i32> {
 
 #[aoc(day9, part1)]
 fn part1(input: &[Vec<i32>]) -> i32 {
-    let mut sum = 0i32;
-
-    for seq in input {
+    input.iter().map(|seq| {
         let mut diff_rows: Vec<Vec<i32>> = vec![seq.clone()];
         while !diff_rows.last().unwrap().iter().all_equal() {
             diff_rows.push(get_diff_row(diff_rows.last().unwrap()));
@@ -40,13 +38,11 @@ fn part1(input: &[Vec<i32>]) -> i32 {
         // }
         // sum += diff_rows.last().unwrap().last().unwrap();
 
-        sum += diff_rows
+        diff_rows
             .iter()
             .map(|r| r.last().unwrap())
-            .sum::<i32>();
-    }
-
-    sum
+            .sum::<i32>()
+    }).sum()
 }
 
 #[aoc(day9, part2)]
