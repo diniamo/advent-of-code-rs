@@ -15,12 +15,12 @@ fn parse(input: &str) -> Input {
         lines
             .skip(1)
             .map(|l| {
-                let mut captures = re.captures_iter(l);
+                let captures = re.captures_iter(l).map(|m| m.get(0).unwrap());
                 (
-                    captures.next().unwrap()[0].to_string(),
+                    captures.get(0).unwrap().as_str().to_string(),
                     (
-                        captures.next().unwrap()[0].to_string(),
-                        captures.next().unwrap()[0].to_string()
+                        captures.get(1).unwrap().as_str().to_string(),
+                        captures.get(2).unwrap().as_str().to_string()
                     )
                 )
             })
