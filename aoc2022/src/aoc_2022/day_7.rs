@@ -1,4 +1,4 @@
-use advent_of_code::Day;
+use aoc2022::Day;
 
 use std::cmp::{max, min};
 

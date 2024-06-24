@@ -1,4 +1,4 @@
-use advent_of_code::*;
+use aoc2022::*;
 
 mod day_1;
 mod day_2;
@@ -19,12 +19,12 @@ impl Year for Aoc2022 {
         vec![
             // Box::new(day_1::Day1 {}),
             // Box::new(day_2::Day2 {}),
-            // Box::new(day_3::Day3 {}),
+            Box::new(day_3::Day3 {}),
             // Box::new(day_4::Day4 {}),
             // Box::new(day_5::Day5 {}),
             // Box::new(day_6::Day6 {}),
             // Box::new(day_7::Day7 {}),
-            Box::new(day_8::Day8 {}),
+            // Box::new(day_8::Day8 {}),
         ]
     }
 }

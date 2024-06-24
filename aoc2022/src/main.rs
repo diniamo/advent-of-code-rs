@@ -1,6 +1,6 @@
 use std::{fs::{create_dir_all, self}, path::Path};
 
-use advent_of_code::Year;
+use aoc2022::Year;
 use crate::aoc_2022::*;
 
 mod aoc_2022;
