@@ -74,24 +74,22 @@ fn part2(input: &[Vec<i32>]) -> usize {
             ValidationResult::Valid => true,
             ValidationResult::NonRecoverable => false,
             ValidationResult::Invalid(index) => {
-                // let mut dampened = report.to_vec();
-                // dampened.remove(index - 1);
-                // if validate_report(&dampened) == ValidationResult::Valid {
-                //     return true;
-                // }
-                //
-                // dampened = report.to_vec();
-                // dampened.remove(index);
-                // if validate_report(&dampened) == ValidationResult::Valid {
-                //     return true;
-                // }
+                let mut dampened = report.to_vec();
+                dampened.remove(index - 1);
+                if validate_report(&dampened) == ValidationResult::Valid {
+                    return true;
+                }
 
-                for i in 0..report.len() {
-                    let mut dampened = report.to_vec();
-                    dampened.remove(i);
-                    if validate_report(&dampened) == ValidationResult::Valid {
-                        return true;
-                    }
+                dampened = report.to_vec();
+                dampened.remove(index);
+                if validate_report(&dampened) == ValidationResult::Valid {
+                    return true;
+                }
+
+                dampened = report.to_vec();
+                dampened.remove(0);
+                if validate_report(&dampened) == ValidationResult::Valid {
+                    return true;
                 }
 
                 false
