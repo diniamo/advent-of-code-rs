@@ -3,12 +3,6 @@ name = "aoc2023"
 version = "0.1.0"
 edition = "2021"
 
-#[workspace]
-#members = ["day5gpu"]
-#
-#[build-dependencies]
-#cuda_builder = "0.3.0"
-
 [dependencies]
 aoc-runner = "0.3.0"
 aoc-runner-derive = "0.3.0"
