@@ -11,3 +11,7 @@ aoc-runner-derive = "0.3.0"
 version = "1.11.1"
 default-features = false
 features = ["perf", "default", "std"]
+
+[dependencies.multimap]
+version = "0.10.0"
+default-features = false
