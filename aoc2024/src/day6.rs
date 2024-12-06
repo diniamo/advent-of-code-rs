@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, PartialEq, Eq, Hash)]
 struct Position {
     row: isize,
     col: isize,
@@ -104,7 +104,8 @@ fn part1(input: &Map) -> usize {
 fn part2(input: &Map) -> usize {
     let mut count = 0usize;
 
-    let mut checked = vec![(input.start_pos.row, input.start_pos.col)];
+    let mut checked = HashSet::new();
+    checked.insert((input.start_pos.row, input.start_pos.col));
     let mut prev_pos = input.start_pos.clone();
 
     walk(input, |pos| {
@@ -120,7 +121,7 @@ fn part2(input: &Map) -> usize {
             };
             map.tiles[pos.row as usize][pos.col as usize] = '#';
 
-            let mut positions = Vec::new();
+            let mut positions = HashSet::new();
             let mut is_first = true;
 
             walk(&map, |p| {
@@ -128,14 +129,14 @@ fn part2(input: &Map) -> usize {
                     count += 1;
                     false
                 } else {
-                    positions.push(p.clone());
+                    positions.insert(p.clone());
                     is_first = false;
                     true
                 }
             });
         }
 
-        checked.push((pos.row, pos.col));
+        checked.insert((pos.row, pos.col));
         prev_pos = pos.clone();
 
         true
