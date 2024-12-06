@@ -1,42 +1,40 @@
 use std::collections::HashSet;
 
-#[derive(PartialEq, Eq, Clone)]
-enum Tile {
-    Empty,
-    Obstacle,
-    Guard,
+#[derive(Clone, PartialEq, Eq)]
+struct Position {
+    row: isize,
+    col: isize,
+    row_step: isize,
+    col_step: isize,
 }
 
-#[derive(Clone)]
 struct Map {
-    tiles: Vec<Vec<Tile>>,
-    row_start: isize,
-    col_start: isize,
+    tiles: Vec<Vec<char>>,
+    start_pos: Position,
 }
 
 #[aoc_generator(day6)]
 fn parse(input: &str) -> Map {
     let mut map = Map {
         tiles: Vec::new(),
-        row_start: 0isize,
-        col_start: 0isize,
+        start_pos: Position {
+            row: 0,
+            col: 0,
+            row_step: -1,
+            col_step: 0,
+        },
     };
 
     for (r, line) in input.lines().enumerate() {
         let mut row = Vec::new();
 
         for (c, chr) in line.chars().enumerate() {
-            row.push(match chr {
-                '.' => Tile::Empty,
-                '#' => Tile::Obstacle,
-                '^' => {
-                    map.row_start = r as isize;
-                    map.col_start = c as isize;
+            if chr == '^' {
+                map.start_pos.row = r as isize;
+                map.start_pos.col = c as isize;
+            }
 
-                    Tile::Guard
-                }
-                _ => unreachable!(),
-            })
+            row.push(chr);
         }
 
         map.tiles.push(row);
@@ -45,19 +43,15 @@ fn parse(input: &str) -> Map {
     map
 }
 
-fn walk<T: FnMut(isize, isize, isize, isize) -> bool>(map: &Map, mut callback: T) {
-    let mut row = map.row_start;
-    let mut col = map.col_start;
-
-    let mut row_step = -1isize;
-    let mut col_step = 0isize;
+fn walk<T: FnMut(&Position) -> bool>(map: &Map, mut callback: T) {
+    let mut pos = map.start_pos.clone();
 
     loop {
-        let mut row_new_i = row + row_step;
-        let mut col_new_i = col + col_step;
+        let mut row_new_i = pos.row + pos.row_step;
+        let mut col_new_i = pos.col + pos.col_step;
 
         if row_new_i < 0 || col_new_i < 0 {
-            callback(row, col, row_step, col_step);
+            callback(&pos);
             break;
         }
 
@@ -65,32 +59,32 @@ fn walk<T: FnMut(isize, isize, isize, isize) -> bool>(map: &Map, mut callback: T
         let mut col_new_u = col_new_i as usize;
 
         if row_new_u >= map.tiles.len() || col_new_u >= map.tiles[row_new_u].len() {
-            callback(row, col, row_step, col_step);
+            callback(&pos);
             break;
         }
 
-        while map.tiles[row_new_u][col_new_u] == Tile::Obstacle {
-            if col_step == 0 {
-                col_step = -row_step;
-                row_step = 0;
+        while map.tiles[row_new_u][col_new_u] == '#' {
+            if pos.col_step == 0 {
+                pos.col_step = -pos.row_step;
+                pos.row_step = 0;
             } else {
-                row_step = col_step;
-                col_step = 0;
+                pos.row_step = pos.col_step;
+                pos.col_step = 0;
             }
 
-            row_new_i = row + row_step;
-            col_new_i = col + col_step;
+            row_new_i = pos.row + pos.row_step;
+            col_new_i = pos.col + pos.col_step;
 
-            row_new_u = row_new_i as usize; 
+            row_new_u = row_new_i as usize;
             col_new_u = col_new_i as usize;
         }
 
-        if !callback(row, col, row_step, col_step) {
+        if !callback(&pos) {
             break;
         }
 
-        row = row_new_i;
-        col = col_new_i;
+        pos.row = row_new_i;
+        pos.col = col_new_i;
     }
 }
 
@@ -98,8 +92,8 @@ fn walk<T: FnMut(isize, isize, isize, isize) -> bool>(map: &Map, mut callback: T
 fn part1(input: &Map) -> usize {
     let mut positions: HashSet<(isize, isize)> = HashSet::new();
 
-    walk(input, |row, col, _, _| {
-        positions.insert((row, col));
+    walk(input, |pos| {
+        positions.insert((pos.row, pos.col));
         true
     });
 
@@ -110,31 +104,40 @@ fn part1(input: &Map) -> usize {
 fn part2(input: &Map) -> usize {
     let mut count = 0usize;
 
-    let mut checked_positions = vec![(input.row_start, input.col_start)];
+    let mut checked = vec![(input.start_pos.row, input.start_pos.col)];
+    let mut prev_pos = input.start_pos.clone();
 
-    walk(input, |row, col, _, _| {
-        if checked_positions.contains(&(row, col)) {
-            return true;
+    walk(input, |pos| {
+        if !checked.contains(&(pos.row, pos.col)) {
+            let mut map = Map {
+                tiles: input.tiles.clone(),
+                start_pos: Position {
+                    row: prev_pos.row,
+                    col: prev_pos.col,
+                    row_step: prev_pos.row_step,
+                    col_step: prev_pos.col_step,
+                },
+            };
+            map.tiles[pos.row as usize][pos.col as usize] = '#';
+
+            let mut positions = Vec::new();
+            let mut is_first = true;
+
+            walk(&map, |p| {
+                if !is_first && positions.contains(p) {
+                    count += 1;
+                    false
+                } else {
+                    positions.push(p.clone());
+                    is_first = false;
+                    true
+                }
+            });
         }
 
-        let mut map = input.clone();
-        map.tiles[row as usize][col as usize] = Tile::Obstacle;
+        checked.push((pos.row, pos.col));
+        prev_pos = pos.clone();
 
-        let mut positions = Vec::new();
-        let mut is_first = true;
-
-        walk(&map, |r, c, r_step, c_step| {
-            if !is_first && positions.contains(&(r, c, r_step, c_step)) {
-                count += 1;
-                false
-            } else {
-                positions.push((r, c, r_step, c_step));
-                is_first = false;
-                true
-            }
-        });
-
-        checked_positions.push((row, col));
         true
     });
 
