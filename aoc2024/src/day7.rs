@@ -4,32 +4,31 @@ use std::iter;
 #[derive(Debug)]
 enum Op {
     Addition,
-    Multiplication
+    Multiplication,
+    Concatenation
 }
 
-#[aoc_generator(day7)]
-fn parse(input: &str) -> Vec<(u64, Vec<u64>)> {
-    input.lines().map(|line| {
-        println!("{line}");
-        let (result, numbers) = line.split_once(": ").unwrap();
+fn concat(a: u64, b: u64) -> u64 {
+    let mut pow = 10u64;
 
-        (
-            result.parse::<u64>().unwrap(),
-            numbers.split(' ').map(|n| n.parse::<u64>().unwrap()).collect()
-        )
-    }).collect()
+    while b >= pow {
+        pow *= 10;
+    }
+
+    a * pow + b
 }
 
-#[aoc(day7, part1)]
-fn part1(input: &[(u64, Vec<u64>)]) -> u64 {
-    input.iter().filter_map(|equation| {
+fn process(equations: &[(u64, Vec<u64>)], operations: &[Op]) -> u64 {
+    equations.iter().filter_map(|equation| {
         let mut result = equation.1[0];
 
-        for ops in iter::repeat_n([Op::Addition, Op::Multiplication].iter(), equation.1.len() - 1).multi_cartesian_product() {
+        for ops in iter::repeat_n(operations.iter(), equation.1.len() - 1).multi_cartesian_product() {
             for i in 1..equation.1.len() {
+                let n = equation.1[i];
                 match ops[i - 1] {
-                    Op::Addition => result += equation.1[i],
-                    Op::Multiplication => result *= equation.1[i],
+                    Op::Addition => result += n,
+                    Op::Multiplication => result *= n,
+                    Op::Concatenation => result = concat(result, n)
                 }
             }
 
@@ -44,10 +43,27 @@ fn part1(input: &[(u64, Vec<u64>)]) -> u64 {
     }).sum()
 }
 
-// #[aoc(day7, part2)]
-// fn part2(input: &str) -> String {
-//     todo!()
-// }
+#[aoc_generator(day7)]
+fn parse(input: &str) -> Vec<(u64, Vec<u64>)> {
+    input.lines().map(|line| {
+        let (result, numbers) = line.split_once(": ").unwrap();
+
+        (
+            result.parse::<u64>().unwrap(),
+            numbers.split(' ').map(|n| n.parse::<u64>().unwrap()).collect()
+        )
+    }).collect()
+}
+
+#[aoc(day7, part1)]
+fn part1(input: &[(u64, Vec<u64>)]) -> u64 {
+    process(input, &[Op::Addition, Op::Multiplication])
+}
+
+#[aoc(day7, part2)]
+fn part2(input: &[(u64, Vec<u64>)]) -> u64 {
+    process(input, &[Op::Addition, Op::Multiplication, Op::Concatenation])
+}
 
 
 #[cfg(test)]
@@ -68,9 +84,4 @@ mod tests {
     fn part1_example() {
         assert_eq!(part1(&parse(EXAMPLE)), 3749);
     }
-
-    // #[test]
-    // fn part2_example() {
-    //     assert_eq!(part2(&parse("<EXAMPLE>")), "<RESULT>");
-    // }
 }

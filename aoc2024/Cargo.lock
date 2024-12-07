@@ -47,8 +47,8 @@ dependencies = [
  "aoc-runner",
  "aoc-runner-derive",
  "grid",
- "multimap",
  "itertools",
+ "multimap",
  "regex",
 ]
 
