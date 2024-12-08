@@ -1,12 +1,12 @@
 use std::collections::HashSet;
 
 struct Input {
-    rows: isize,
-    cols: isize,
-    antennas: Vec<(char, isize, isize)>,
+    rows: i32,
+    cols: i32,
+    antennas: Vec<(char, i32, i32)>,
 }
 
-fn check_bounds(row: isize, col: isize, rows: isize, cols: isize) -> bool {
+fn check_bounds(row: i32, col: i32, rows: i32, cols: i32) -> bool {
     row >= 0 && row < rows && col >= 0 && col < cols
 }
 
@@ -17,14 +17,14 @@ fn parse(input: &str) -> Input {
     for (row, line) in input.lines().enumerate() {
         for (col, chr) in line.chars().enumerate() {
             if chr != '.' {
-                antennas.push((chr, row as isize, col as isize));
+                antennas.push((chr, row as i32, col as i32));
             }
         }
     }
 
     Input {
-        rows: input.lines().count() as isize,
-        cols: input.lines().next().unwrap().chars().count() as isize,
+        rows: input.lines().count() as i32,
+        cols: input.lines().next().unwrap().chars().count() as i32,
         antennas,
     }
 }
